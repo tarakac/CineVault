@@ -1,8 +1,11 @@
-import { Outlet, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Outlet, useLocation } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function RootLayout() {
-  const { user } = useAuth();
+  const location = useLocation();
+
+  // Hide navbar on login page
+  const hideNavbar = location.pathname === "/login";
 
   return (
     <div
@@ -13,53 +16,14 @@ export default function RootLayout() {
         color: "white",
       }}
     >
-      {/* NAVBAR */}
-      <nav
-        style={{
-          width: "100%",
-          padding: "20px 40px",
-          background: "#000",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          boxSizing: "border-box",
-        }}
-      >
-        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-          <Link to="/" style={{ fontSize: 24, color: "white", fontWeight: "bold" }}>
-            MovieApp
-          </Link>
-          <Link to="/" style={{ color: "white" }}>Home</Link>
-          <Link to="/watchlist" style={{ color: "white" }}>Watchlist</Link>
-        </div>
+      {!hideNavbar && <Navbar />}
 
-        <div>
-          {user ? (
-            <>
-              <span style={{ marginRight: 20 }}>{user.displayName}</span>
-              <button
-                onClick={() => {
-                  localStorage.clear();
-                  window.location.href = "/login";
-                }}
-                style={{ background: "red", color: "white", padding: "8px 16px", borderRadius: 8 }}
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <Link to="/login" style={{ color: "white" }}>Login</Link>
-          )}
-        </div>
-      </nav>
-
-      {/* PAGE CONTENT */}
       <main
         style={{
           width: "100%",
-          padding: "40px 40px",
+          padding: "40px",
           boxSizing: "border-box",
-          minHeight: "calc(100vh - 80px)",
+          minHeight: hideNavbar ? "100vh" : "calc(100vh - 80px)",
         }}
       >
         <Outlet />
