@@ -10,7 +10,7 @@ import watchlistRoutes from "./routes/watchlistRoutes.js";
 const app = express();
 
 // CORS MUST be here before routes
-app.use(cors({origin: ["http://localhost:5173", "https://your-frontend-url.onrender.com"],
+app.use(cors({origin: ["http://localhost:5173", "https://cinevault-frontend.onrender.com"],
   credentials: true
 }));
 
