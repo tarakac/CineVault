@@ -1,13 +1,21 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
 export default function Navbar() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // ⛔ Do not render navbar until Firebase finishes checking auth
+  if (loading) return null;
+
+  const isLoginPage = location.pathname === "/login";
 
   async function handleLogout() {
     await signOut(auth);
+    navigate("/login");
   }
 
   return (
@@ -52,7 +60,7 @@ export default function Navbar() {
           Home
         </NavLink>
 
-        {user && (
+        {!isLoginPage && user && (
           <NavLink
             to="/watchlist"
             aria-label="Your Watchlist"
@@ -69,14 +77,13 @@ export default function Navbar() {
 
       {/* Right Section */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        {user ? (
+        {!isLoginPage && user ? (
           <>
             {/* Profile */}
             <div
               aria-label="User Profile"
               style={{ display: "flex", alignItems: "center", gap: "8px" }}
             >
-              {/* Avatar placeholder */}
               <div
                 style={{
                   width: "32px",
@@ -113,7 +120,7 @@ export default function Navbar() {
               Logout
             </button>
           </>
-        ) : (
+        ) : !isLoginPage ? (
           <Link
             to="/login"
             style={{
@@ -127,7 +134,7 @@ export default function Navbar() {
           >
             Login
           </Link>
-        )}
+        ) : null}
       </div>
     </nav>
   );
