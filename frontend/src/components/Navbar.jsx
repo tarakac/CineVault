@@ -12,6 +12,10 @@ export default function Navbar() {
   if (loading) return null;
 
   const isLoginPage = location.pathname === "/login";
+  const displayName =
+   user?.displayName ||
+   user?.email?.split("@")[0] ||
+   "";
 
   async function handleLogout() {
     await signOut(auth);
@@ -77,64 +81,65 @@ export default function Navbar() {
 
       {/* Right Section */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        {!isLoginPage && user ? (
-          <>
-            {/* Profile */}
-            <div
-              aria-label="User Profile"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  backgroundColor: "#555",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.9rem",
-                }}
-              >
-                {user.displayName
-                  ? user.displayName.charAt(0).toUpperCase()
-                  : "U"}
-              </div>
+        {user && !isLoginPage && (
+  <>
+    {/* Profile */}
+    <div
+      aria-label="User Profile"
+      style={{ display: "flex", alignItems: "center", gap: "8px" }}
+    >
+      <div
+        style={{
+          width: "32px",
+          height: "32px",
+          borderRadius: "50%",
+          backgroundColor: "#555",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "0.9rem",
+        }}
+      >
+        {displayName.charAt(0).toUpperCase()}
+      </div>
 
-              <span>{user.displayName || user.email}</span>
-            </div>
+      <span>{displayName}</span>
+    </div>
 
-            <button
-              onClick={handleLogout}
-              aria-label="Logout"
-              style={{
-                padding: "6px 12px",
-                backgroundColor: "#e63946",
-                border: "none",
-                color: "white",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "0.9rem",
-              }}
-            >
-              Logout
-            </button>
-          </>
-        ) : !isLoginPage ? (
-          <Link
-            to="/login"
-            style={{
-              padding: "6px 12px",
-              backgroundColor: "#457b9d",
-              color: "white",
-              textDecoration: "none",
-              borderRadius: "4px",
-              fontSize: "0.9rem",
-            }}
-          >
-            Login
-          </Link>
-        ) : null}
+    <button
+      onClick={handleLogout}
+      aria-label="Logout"
+      style={{
+        padding: "6px 12px",
+        backgroundColor: "#e63946",
+        border: "none",
+        color: "white",
+        borderRadius: "4px",
+        cursor: "pointer",
+        fontSize: "0.9rem",
+      }}
+    >
+      Logout
+    </button>
+  </>
+)}
+
+{!user && !isLoginPage && (
+  <Link
+    to="/login"
+    style={{
+      padding: "6px 12px",
+      backgroundColor: "#457b9d",
+      color: "white",
+      textDecoration: "none",
+      borderRadius: "4px",
+      fontSize: "0.9rem",
+    }}
+  >
+    Login
+  </Link>
+)}
+
       </div>
     </nav>
   );
