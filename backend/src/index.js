@@ -10,7 +10,9 @@ import watchlistRoutes from "./routes/watchlistRoutes.js";
 const app = express();
 
 // CORS MUST be here before routes
-app.use(cors());
+app.use(cors({origin: ["http://localhost:5173", "https://your-frontend-url.onrender.com"],
+  credentials: true
+}));
 
 // Parse JSON
 app.use(express.json());

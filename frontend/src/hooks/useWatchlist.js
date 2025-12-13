@@ -1,10 +1,11 @@
 import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 export function useWatchlist(uid) {
   const { data, error, mutate } = useSWR(
-    uid ? `http://localhost:5000/api/watchlist/${uid}` : null,
+    uid ? `${API_BASE}/api/watchlist/${uid}` : null,
     fetcher
   );
 
@@ -18,7 +19,7 @@ export function useWatchlist(uid) {
 
 // ADD movie to watchlist
 export async function addToWatchlist({ uid, movie }) {
-  const res = await fetch("http://localhost:5000/api/watchlist", {
+  const res = await fetch(`${API_BASE}/api/watchlist`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -35,7 +36,7 @@ export async function addToWatchlist({ uid, movie }) {
 // REMOVE movie
 export async function removeFromWatchlist(uid, movieId) {
   const res = await fetch(
-    `http://localhost:5000/api/watchlist/${uid}/${movieId}`,
+    `${API_BASE}/api/watchlist/${uid}/${movieId}`,
     { method: "DELETE" }
   );
 
