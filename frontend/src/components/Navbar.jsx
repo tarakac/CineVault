@@ -1,13 +1,13 @@
-import { Link, NavLink,useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
 export default function Navbar() {
   const { user, loading } = useAuth();
- 
   const navigate = useNavigate();
 
+  // Prevent flicker while Firebase checks auth
   if (loading) return null;
 
   const displayName =
@@ -62,11 +62,9 @@ export default function Navbar() {
           Home
         </NavLink>
 
-        {/* Watchlist only for logged-in users */}
         {user && (
           <NavLink
             to="/watchlist"
-            aria-label="Your Watchlist"
             style={({ isActive }) => ({
               color: isActive ? "#00d4ff" : "white",
               textDecoration: "none",
@@ -82,7 +80,6 @@ export default function Navbar() {
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         {user ? (
           <>
-            {/* Profile */}
             <div
               aria-label="User Profile"
               style={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -107,7 +104,6 @@ export default function Navbar() {
 
             <button
               onClick={handleLogout}
-              aria-label="Logout"
               style={{
                 padding: "6px 12px",
                 backgroundColor: "#e63946",
@@ -115,7 +111,6 @@ export default function Navbar() {
                 color: "white",
                 borderRadius: "4px",
                 cursor: "pointer",
-                fontSize: "0.9rem",
               }}
             >
               Logout
@@ -130,7 +125,6 @@ export default function Navbar() {
               color: "white",
               textDecoration: "none",
               borderRadius: "4px",
-              fontSize: "0.9rem",
             }}
           >
             Login
