@@ -1,44 +1,37 @@
-import { AuthProvider } from "./context/AuthContext";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { AuthProvider } from "./context/AuthContext";
+
+import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
 import MovieDetails from "./pages/MovieDetails";
 import Login from "./pages/Login";
-import RootLayout from "./layouts/RootLayout";
 import Watchlist from "./pages/Watchlist";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: <RootLayout />, // ✅ NAVBAR LIVES HERE
     children: [
       { index: true, element: <Home /> },
 
-      {
-        path: "movie/:id",
-        element: (
-          <ProtectedRoute>
-            <MovieDetails />
-          </ProtectedRoute>
-        )
-      },
+      { path: "login", element: <Login /> }, // ✅ LOGIN NOW HAS NAVBAR
 
-      { path: "login", element: <Login /> },
+      { path: "movie/:id", element: <MovieDetails /> }, // public
 
       {
-        path: "watchlist",   // FIXED — removed "/"
+        path: "watchlist",
         element: (
           <ProtectedRoute>
             <Watchlist />
           </ProtectedRoute>
         ),
       },
-    ]
-  }
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
