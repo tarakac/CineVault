@@ -1,21 +1,19 @@
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink,useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
 export default function Navbar() {
   const { user, loading } = useAuth();
-  const location = useLocation();
+ 
   const navigate = useNavigate();
 
-  // ⛔ Do not render navbar until Firebase finishes checking auth
   if (loading) return null;
 
-  const isLoginPage = location.pathname === "/login";
   const displayName =
-   user?.displayName ||
-   user?.email?.split("@")[0] ||
-   "";
+    user?.displayName ||
+    user?.email?.split("@")[0] ||
+    "";
 
   async function handleLogout() {
     await signOut(auth);
@@ -64,7 +62,8 @@ export default function Navbar() {
           Home
         </NavLink>
 
-        {!isLoginPage && user && (
+        {/* Watchlist only for logged-in users */}
+        {user && (
           <NavLink
             to="/watchlist"
             aria-label="Your Watchlist"
@@ -81,65 +80,62 @@ export default function Navbar() {
 
       {/* Right Section */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        {user && !isLoginPage && (
-  <>
-    {/* Profile */}
-    <div
-      aria-label="User Profile"
-      style={{ display: "flex", alignItems: "center", gap: "8px" }}
-    >
-      <div
-        style={{
-          width: "32px",
-          height: "32px",
-          borderRadius: "50%",
-          backgroundColor: "#555",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "0.9rem",
-        }}
-      >
-        {displayName.charAt(0).toUpperCase()}
-      </div>
+        {user ? (
+          <>
+            {/* Profile */}
+            <div
+              aria-label="User Profile"
+              style={{ display: "flex", alignItems: "center", gap: "8px" }}
+            >
+              <div
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  backgroundColor: "#555",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "0.9rem",
+                }}
+              >
+                {displayName.charAt(0).toUpperCase()}
+              </div>
 
-      <span>{displayName}</span>
-    </div>
+              <span>{displayName}</span>
+            </div>
 
-    <button
-      onClick={handleLogout}
-      aria-label="Logout"
-      style={{
-        padding: "6px 12px",
-        backgroundColor: "#e63946",
-        border: "none",
-        color: "white",
-        borderRadius: "4px",
-        cursor: "pointer",
-        fontSize: "0.9rem",
-      }}
-    >
-      Logout
-    </button>
-  </>
-)}
-
-{!user && !isLoginPage && (
-  <Link
-    to="/login"
-    style={{
-      padding: "6px 12px",
-      backgroundColor: "#457b9d",
-      color: "white",
-      textDecoration: "none",
-      borderRadius: "4px",
-      fontSize: "0.9rem",
-    }}
-  >
-    Login
-  </Link>
-)}
-
+            <button
+              onClick={handleLogout}
+              aria-label="Logout"
+              style={{
+                padding: "6px 12px",
+                backgroundColor: "#e63946",
+                border: "none",
+                color: "white",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+              }}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link
+            to="/login"
+            style={{
+              padding: "6px 12px",
+              backgroundColor: "#457b9d",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "4px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );
