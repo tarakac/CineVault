@@ -1,0 +1,81 @@
+### Create a new movie
+POST http://localhost:5000/api/movies
+Content-Type: application/json
+
+{
+  "title": "Inception",
+  "year": 2010,
+  "genre": "Sci-Fi"
+}
+
+### Get all movies
+GET http://localhost:5000/api/movies
+
+
+### -----------------------------------------
+### TEST 1 — Backend Alive
+### -----------------------------------------
+GET http://localhost:5000/
+Accept: application/json
+
+
+### -----------------------------------------
+### TEST 2 — CREATE (POST)
+### Add a movie to the watchlist
+### -----------------------------------------
+POST http://localhost:5000/api/watchlist
+Content-Type: application/json
+
+{
+  "uid": "testuser123",
+  "movieId": 550,
+  "title": "Fight Club",
+  "posterPath": "/a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg"
+}
+
+
+### -----------------------------------------
+### TEST 3 — READ (GET)
+### Fetch watchlist for this user
+### -----------------------------------------
+GET http://localhost:5000/api/watchlist/testuser123
+Accept: application/json
+
+
+### -----------------------------------------
+### TEST 4 — CREATE AGAIN (POST)
+### Add another movie to the watchlist
+### -----------------------------------------
+POST http://localhost:5000/api/watchlist
+Content-Type: application/json
+
+{
+  "uid": "testuser123",
+  "movieId": 603,
+  "title": "The Matrix",
+  "posterPath": "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg"
+}
+
+
+### -----------------------------------------
+### TEST 5 — READ AGAIN (GET)
+### Watchlist should now contain 2 movies
+### -----------------------------------------
+GET http://localhost:5000/api/watchlist/testuser123
+Accept: application/json
+
+
+### -----------------------------------------
+### TEST 6 — DELETE
+### Remove “Fight Club” (movieId 550)
+### -----------------------------------------
+DELETE http://localhost:5000/api/watchlist/testuser123/550
+Accept: application/json
+
+
+### -----------------------------------------
+### TEST 7 — READ AFTER DELETE
+### Should now only contain 1 movie
+### -----------------------------------------
+GET http://localhost:5000/api/watchlist/testuser123
+Accept: application/json
