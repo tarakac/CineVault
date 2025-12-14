@@ -3,12 +3,35 @@ React • Express • MongoDB • Firebase Auth • TMDB API • SWR • Framer 
 
 CineVault is a full-stack web application allowing users to search movies, view details, and manage a personal watchlist with secure authentication.
 This project fulfills the full Capstone requirements for React, Express, Deployment, Database, Testing, and System Design.
+## 🛠 Tech Stack
 
-🚀 Live Deployment
-Component	Link
-Frontend (React)	TODO: Add deployed URL
-Backend (Express API)	TODO: Add deployed URL
-Demo Video	TODO: Add video link
+**Frontend**
+- React (Vite)
+- React Router
+- Firebase Authentication
+- SWR
+- Framer Motion
+
+**Backend**
+- Node.js
+- Express
+- MongoDB Atlas
+- Mongoose
+
+**Testing**
+- Playwright (End-to-End)
+
+**Deployment**
+- Render (Frontend & Backend)
+
+
+## 🚀 Live Deployment
+
+- **Frontend:** https://cinevault-frontend.onrender.com  
+- **Backend API:** https://cinevault-0j9s.onrender.com  
+
+---
+
 📦 Repository Structure
 /frontend
    /src
@@ -60,43 +83,42 @@ Additional Engineering
 ✔ Full documentation
 ✔ Proper attribution
 
-🛠️ Technologies Used
-Frontend
 
-React (Vite)
+### Deployment
+- Frontend deployed on Render
+- Backend API deployed on Render
+- MongoDB hosted on MongoDB Atlas
+- Environment variables securely managed via Render dashboard
 
-React Router
+## ✨ Features
 
-SWR
+### Public (No Login Required)
+- Search movies via TMDB API
+- View movie details
+- Responsive UI across devices
 
-Firebase Authentication
+### Authenticated Users
+- Register & login (Email/Password or Google)
+- Add movies to watchlist
+- Remove movies from watchlist
+- Watchlist persists after refresh
+- Protected routes (Watchlist)
 
-Framer Motion
+---
 
-TMDB API
+## 🔐 Authentication & Authorization
 
-Backend
+- Firebase Authentication manages user sessions
+- Auth state is globally available via `AuthContext`
+- Watchlist routes are protected using `ProtectedRoute`
+- Non-authenticated users can browse but cannot modify watchlists
 
-Node.js + Express
-
-MongoDB + Mongoose
-
-CORS
-
-dotenv
-
-Tools
-
-Playwright (E2E Testing)
-
-GitHub + VS Code Dev Containers
-
-Google Cloud / Render / Railway (deployment choice)
+---
 
 📖 Installation & Setup Instructions
 ▶️ 1. Clone Repository
-git clone 
-cd cinevault
+git clone https://github.com/tarakac/CineVault.git
+cd capstone-movie
 
 ⚙️ Dev Container Setup (Required )
 
@@ -112,17 +134,30 @@ Open folder in container:
 
 Ctrl + Shift + P → Dev Containers: Reopen in Container
 
+
+---
+
+## ⚙️ Environment Variables
+
+### Backend (`backend/.env`)
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+
+### Frontend (`frontend/.env`)
+Create /frontend/.env:
+VITE_FIREBASE_API_KEY=your_key
+VITE_FIREBASE_AUTH_DOMAIN=your_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_BACKEND_URL=https://cinevault-0j9s.onrender.com
+VITE_TMDB_API_KEY=your_tmdb_key
+
+
 🗄️ 2. Backend Setup
 Install Dependencies
 cd backend
 npm install
-
-Configure .env
-
-Create /backend/.env:
-
-PORT=5000
-MONGO_URI=your_mongodb_atlas_uri
 
 Start Backend
 npm run dev
@@ -138,25 +173,15 @@ Install Dependencies
 cd frontend
 npm install
 
+
+## End-to-End Testing (Playwright)
+cd frontend
+npm run test:e2e
+
 Firebase Configuration
-
-Create /frontend/.env:
-
-VITE_FIREBASE_API_KEY=...
-VITE_FIREBASE_AUTH_DOMAIN=...
-VITE_FIREBASE_PROJECT_ID=...
-VITE_FIREBASE_STORAGE_BUCKET=...
-VITE_FIREBASE_MESSAGING_SENDER_ID=...
-VITE_FIREBASE_APP_ID=...
-VITE_TMDB_API_KEY=...
-
 Start Frontend
 npm run dev
 
-
-App available at:
-
-http://localhost:5173
 
 🔌 API Documentation (Backend)
 GET Watchlist
@@ -189,37 +214,23 @@ Email Registration
 Auth state preserved via onAuthStateChanged
 
 Protected routes:
-
-/movie/:id
-
 /watchlist
 
-If not logged in → user is redirected to /login.
+Public routes:
+/  
+/movie/:id  
+/login
 
-🎥 Video Demonstration Checklist
 
-Your video should include:
 
-Login via Firebase
 
-Searching for movies
-
-Viewing movie details
-
-Adding/removing movies from watchlist
-
-Backend API logs in Dev Container
-
-Playwright test running successfully
-
-Architecture explanation (React → Express → MongoDB)
-
-🧪 Automated Testing (Playwright)
+🧪 Automated Testing (Playwright) file: tests/search.specs.js
 Run Tests
 cd frontend
 npx playwright test
 
 What is tested?
+[Screenshot of running testcase](testcase.png)
 
 ✔ User login
 ✔ Search functionality
@@ -227,16 +238,7 @@ What is tested?
 ✔ Clicking movie opens details
 ✔ URL validation (/movie/:id)
 
-🧱 Design Artifact (Required)
-Sequence Diagram – User Adds Movie to Watchlist
-User → React UI: Click "Add to Watchlist"
-React → Firebase Auth: Retrieve UID
-React → Express API: POST /api/watchlist
-Express → MongoDB: Insert document
-MongoDB → Express: Success
-Express → React: JSON success response
-React → SWR Cache: Mutate + refresh watchlist
-UI → User: Button updates to "Remove from Watchlist"
+
 
 📁 Project Architecture
 React (Frontend)
@@ -268,3 +270,35 @@ SWR – data fetching
 Playwright – automated testing
 
 All AI assistance (ChatGPT) was used ethically and cited here.
+
+♿ Accessibility
+
+Semantic HTML
+
+ARIA labels on navigation
+
+Keyboard-accessible controls
+
+Color contrast compliant with WCAG 2.2 AA
+
+📌 Future Enhancements
+
+User profiles
+
+Movie recommendations
+
+Pagination & infinite scroll
+
+Improved animations
+
+## sequence diagram
+![Sequence Diagram](/docs/sequencediagram.png)
+
+
+
+
+👤 Author
+
+Taraka Nanda Deepthi
+Capstone Project – Full-Stack Web Development
+
