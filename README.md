@@ -28,8 +28,9 @@ This project fulfills the full Capstone requirements for React, Express, Deploym
 ## 🚀 Live Deployment
 
 - **Frontend:** https://cinevault-frontend.onrender.com  
-- **Backend API:** https://cinevault-0j9s.onrender.com  
+- **Backend API:** https://cinevault-0j9s.onrender.com 
 
+- **Demo Link:** https://drive.google.com/file/d/1_wllibLSGyEqb3zmwFViMHfSa6vfL67t/view?usp=drive_link
 ---
 
 📦 Repository Structure
